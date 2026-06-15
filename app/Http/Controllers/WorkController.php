@@ -10,7 +10,7 @@ class WorkController extends Controller
         public function index()
     {
         //
-        echo "作品一覧";
+        return view('work.index');
     }
     // 作品検索
         public function search()
@@ -21,5 +21,6 @@ class WorkController extends Controller
         public function show()
     {
         //
+        echo 'work.show';
     }
 }
