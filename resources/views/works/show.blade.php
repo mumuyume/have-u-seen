@@ -21,12 +21,19 @@
         @auth
         <div class="mt-5">
           <label class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">視聴ステータス（クリックで切り替え）</label>
-            @php $currentStatus = (int) ($work->impressions->first()?->status ?? 0); @endphp
+            @php 
+                $currentStatus = (int) ($work->impressions->first()?->status ?? 0);
+                $statusColors = [ 1 => 'bg-gray-500 text-white font-medium', 2 => 'bg-purple-600 text-white font-medium', 3 => 'bg-yellow-500 text-white font-medium', 4 => 'bg-green-600 text-white font-medium', ];
+            @endphp
             <div class="inline-flex rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 text-sm">
-                <a href="#" class="px-3 py-1.5 border-r border-gray-300 dark:border-gray-600 {{ $currentStatus === 1 ? 'bg-gray-500 text-white font-medium' : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300' }}">未視聴</a>
-                <a href="#" class="px-3 py-1.5 border-r border-gray-300 dark:border-gray-600 {{ $currentStatus === 2 ? 'bg-purple-600 text-white font-medium' : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300' }}">気になる</a>
-                <a href="#" class="px-3 py-1.5 border-r border-gray-300 dark:border-gray-600 {{ $currentStatus === 3 ? 'bg-yellow-500 text-white font-medium' : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300' }}">視聴中</a>
-                <a href="#" class="px-3 py-1.5 {{ $currentStatus === 4 ? 'bg-green-600 text-white font-medium' : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300' }}">視聴済み</a>
+                @foreach([1 => '未視聴', 2 => '気になる', 3 => '視聴中', 4 => '視聴済み'] as $value => $label)
+                <form method="POST" action="{{ route('impressions.update', $work->id) }}">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" name="status" value="{{ $value }}">
+                    <button type="submit" class="px-3 py-1.5 {{ $loop->last ? '' : 'border-r border-gray-300 dark:border-gray-600' }} {{ $currentStatus === $value ? $statusColors[$value] : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300' }}">{{ $label }}</button>
+                </form>
+                @endforeach
             </div>
         </div>
         @endauth

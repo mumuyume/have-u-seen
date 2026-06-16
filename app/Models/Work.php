@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Work extends Model
 {
@@ -24,4 +25,5 @@ class Work extends Model
         return $this->hasMany(Impression::class);
     }
 
+    use HasFactory;
 }

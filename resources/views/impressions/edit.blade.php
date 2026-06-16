@@ -65,8 +65,13 @@
                     </div>
 
                     <div class="flex items-center justify-between pt-2">
-                        <!-- 削除 → 一覧へ -->
-                        <a href="list.html" class="text-sm font-medium text-red-600 hover:underline dark:text-red-400">この感想を削除する</a>
+                    @if($impression)
+                    <!-- 削除ボタン -->
+                    <button type="button" onclick="document.getElementById('delete-modal').classList.remove('hidden')" class="text-sm font-medium text-red-600 hover:underline dark:text-red-400">この感想を削除する</button>
+                    @else
+                    <div></div>
+                    @endif
+
                         <div class="flex gap-2">
                             <!-- キャンセル → 詳細に戻る -->
                             <a href="{{ session()->previousUrl() }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600">キャンセル</a>
@@ -76,6 +81,24 @@
                     </div>
                 </div>
             </form>
+            
+            <!-- 削認モーダル -->
+            <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-sm w-full mx-4">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">感想を削除しますか？</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">削除すると元に戻せません。</p>
+                    <div class="flex justify-end gap-3">
+                        <button type="button" onclick="document.getElementById('delete-modal').classList.add('hidden')"
+                            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600">キャンセル</button>
+                        <form method="POST" action="{{ route('impressions.destroy', $work->id) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">削除する</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 @endsection

@@ -45,5 +45,14 @@ class WorkSeeder extends Seeder
             $tagIds = Tag::whereIn('name', $data['tags'])->pluck('id');
             $work->tags()->attach($tagIds);
         }
+
+        // factory
+        $tags = Tag::all();
+
+        Work::factory(30)->create()->each(function ($work) use ($tags) {
+            $work->tags()->attach(
+                $tags->random(rand(1, 3))->pluck('id')
+            );
+        });
     }
 }

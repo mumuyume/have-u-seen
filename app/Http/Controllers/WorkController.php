@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 
 class WorkController extends Controller
 {
+    // 1ページで表示する作品数
+    private const PER_PAGE = 20;
+
     // 作品一覧
         public function index()
     {
@@ -16,27 +19,52 @@ class WorkController extends Controller
         $userId = auth()->id();
         $works = Work::with(['tags', 'impressions' => function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        }])->get();
-        // 視聴ステータスラベル用
-        $status = [
-            'labels' => [1 => '未視聴', 2 => '気になる', 3 => '視聴中', 4 => '視聴済み'],
-            'classes' => [
-                1 => 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-                2 => 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-                3 => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-                4 => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-            ],
-        ];
-        return view('works.search', compact('tags', 'works', 'status'));
+        }])->paginate(self::PER_PAGE);
+        return view('works.index', compact('tags', 'works'));
     }
     // 作品検索
         public function search(Request $request)
     {
         #dd($request->title);
         $tags = Tag::all();
-        return view('works.search', compact('tags', 'request'));
+        $userId = auth()->id();
 
-        //
+        $query = Work::with(['tags', 'impressions' => function ($q) use ($userId) {
+            $q->where('user_id', $userId);
+        }]);
+        
+        // タイトル検索
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        // タグ絞り込み
+        if ($request->filled('tags')) {
+            $tagIds = $request->tags;
+            if ($request->tagcond === 'or') {
+                $query->whereHas('tags', function ($q) use ($tagIds) {
+                    $q->whereIn('tags.id', $tagIds);
+                });
+            } else {
+                // and条件：選んだタグを全部含む
+                foreach ($tagIds as $tagId) {
+                    $query->whereHas('tags', function ($q) use ($tagId) {
+                        $q->where('tags.id', $tagId);
+                    });
+                }
+            }
+        }
+
+        // ステータス絞り込み（ログイン時のみ）
+        if ($userId && $request->filled('status')) {
+            $query->whereHas('impressions', function ($q) use ($userId, $request) {
+                $q->where('user_id', $userId)
+                ->whereIn('status', $request->status);
+            });
+        }
+
+        $works = $query->paginate(self::PER_PAGE);
+        return view('works.search', compact('tags', 'request', 'works'));
     }
     // 作品詳細
         public function show(Work $work)
