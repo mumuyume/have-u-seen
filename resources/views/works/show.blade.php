@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', '検索結果')
+@section('title', config('app.name').' - '.$work->title)
 
 @section('content')
 <main class="max-w-4xl mx-auto px-4 py-6">

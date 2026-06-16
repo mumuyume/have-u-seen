@@ -27,14 +27,14 @@ class WorkController extends Controller
                 4 => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
             ],
         ];
-        return view('work.search', compact('tags', 'works', 'status'));
+        return view('works.search', compact('tags', 'works', 'status'));
     }
     // 作品検索
         public function search(Request $request)
     {
         #dd($request->title);
         $tags = Tag::all();
-        return view('work.search', compact('tags', 'request'));
+        return view('works.search', compact('tags', 'request'));
 
         //
     }
@@ -46,6 +46,6 @@ class WorkController extends Controller
             $query->where('user_id', auth()->id());
         }]);
 
-        return view('work.show', compact('work'));
+        return view('works.show', compact('work'));
     }
 }
