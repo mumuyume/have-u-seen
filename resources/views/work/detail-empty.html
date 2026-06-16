@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作品詳細（感想なし） - HaveUSeen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+
+  <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="list.html" class="text-lg font-bold text-gray-900 dark:text-white">HaveUSeen</a>
+      <div class="flex items-center gap-4">
+        <a href="list.html" class="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300">作品一覧</a>
+        <a href="mypage.html" class="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300">マイページ</a>
+        <a href="login.html" class="text-sm font-medium text-gray-600 hover:text-blue-600 dark:text-gray-300">ログアウト</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    <a href="list.html" class="text-sm text-blue-600 hover:underline dark:text-blue-400">← 一覧に戻る</a>
+
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mt-3 p-6 flex flex-col sm:flex-row gap-6">
+      <div class="w-full sm:w-40 h-56 bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center text-gray-400 text-xs shrink-0">サムネイル画像</div>
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">作品タイトルB</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">制作年：20XX</p>
+        <div class="flex flex-wrap gap-1.5 mt-3">
+          <span class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-300">ファンタジー</span>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-900 dark:text-blue-300">学園</span>
+        </div>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-3 leading-relaxed">ここに作品の概要・あらすじが入ります。</p>
+
+        <div class="mt-5">
+          <label class="block mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-300">視聴ステータス（クリックで切り替え）</label>
+          <div class="inline-flex rounded-lg overflow-hidden border border-gray-300 dark:border-gray-600 text-sm">
+            <a href="detail-empty.html" class="px-3 py-1.5 bg-gray-200 text-gray-800 font-medium dark:bg-gray-600 dark:text-white border-r border-gray-300 dark:border-gray-500">未視聴</a>
+            <a href="detail-empty.html" class="px-3 py-1.5 bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-r border-gray-300 dark:border-gray-600">気になる</a>
+            <a href="detail-empty.html" class="px-3 py-1.5 bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 border-r border-gray-300 dark:border-gray-600">視聴中</a>
+            <a href="detail.html" class="px-3 py-1.5 bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300">視聴済み</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mt-4 p-6">
+      <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">自分の感想・評価</h2>
+      <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+        <p class="text-sm text-gray-400 dark:text-gray-500 mb-3">まだ感想は記録されていません</p>
+        <!-- 感想を記録する → 感想フォームへ -->
+        <a href="impression-form.html" class="inline-block text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-5 py-2.5">
+          感想を記録する
+        </a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

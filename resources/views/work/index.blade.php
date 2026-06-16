@@ -13,50 +13,53 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
         <aside id="filter-panel" class="hidden lg:block lg:col-span-1">
-            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 lg:sticky lg:top-4">
-            <div class="flex items-center justify-between mb-3">
-                <h2 class="text-sm font-bold text-gray-900 dark:text-white">絞り込み</h2>
-                <button onclick="document.getElementById('filter-panel').classList.add('hidden')"
-                class="lg:hidden text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">閉じる ✕</button>
-            </div>
-
-            <div class="mb-4">
-                <label class="block mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">作品名で検索</label>
-                <input type="text" placeholder="タイトルを入力..."
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white w-full" />
-            </div>
-
-            <div class="mb-4">
-                <label class="block mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">視聴ステータス</label>
-                <div class="space-y-2">
-                <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300">未視聴</span></label>
-                <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">気になる</span></label>
-                <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">視聴中</span></label>
-                <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input type="checkbox" checked class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">視聴済み</span></label>
+            <form action="{{ route('works.search') }}" method="GET">
+                <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 lg:sticky lg:top-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-bold text-gray-900 dark:text-white">絞り込み</h2>
+                    <button type="button" onclick="document.getElementById('filter-panel').classList.add('hidden')" class="lg:hidden text-xs text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">閉じる ✕</button>
                 </div>
-            </div>
 
-            <div class="mb-4">
-                <label class="block mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">タグで絞り込み（複数選択可）</label>
-                <div class="flex flex-wrap gap-1.5">
-                <button onclick="toggleTag(this)" class="tag-btn is-selected px-2.5 py-1 text-xs font-medium rounded-full border border-blue-600 bg-blue-600 text-white">SF</button>
-                <button onclick="toggleTag(this)" class="tag-btn px-2.5 py-1 text-xs font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300">ファンタジー</button>
-                <button onclick="toggleTag(this)" class="tag-btn is-selected px-2.5 py-1 text-xs font-medium rounded-full border border-blue-600 bg-blue-600 text-white">感動</button>
-                <button onclick="toggleTag(this)" class="tag-btn px-2.5 py-1 text-xs font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300">恋愛</button>
-                <button onclick="toggleTag(this)" class="tag-btn px-2.5 py-1 text-xs font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300">アクション</button>
+                <div class="mb-4">
+                    <label class="block mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">作品名で検索</label>
+                    <input type="text" name="title" placeholder="タイトルを入力..." class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white w-full" />
                 </div>
-                <div class="flex flex-col gap-1.5 mt-3 text-xs text-gray-500 dark:text-gray-400">
-                <span>絞り込み方法：</span>
-                <label class="flex items-center"><input type="radio" name="tagcond" checked class="w-3.5 h-3.5 mr-1 text-blue-600">選んだタグを全部含む作品</label>
-                <label class="flex items-center"><input type="radio" name="tagcond" class="w-3.5 h-3.5 mr-1 text-blue-600">選んだタグのどれかを含む作品</label>
-                </div>
-            </div>
 
-            <!-- 絞り込み実行 → 検索結果ページへ -->
-            <a href="search-results.html" class="block text-center w-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
-                この条件で絞り込む
-            </a>
-            </div>
+                @auth
+                <div class="mb-4">
+                    <label class="block mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">視聴ステータス</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input name="status[]" value="1" type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300">未視聴</span></label>
+                        <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input name="status[]" value="2" type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">気になる</span></label>
+                        <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input name="status[]" value="3" type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300">視聴中</span></label>
+                        <label class="flex items-center text-sm text-gray-600 dark:text-gray-300"><input name="status[]" value="4" type="checkbox" class="w-4 h-4 mr-2 text-blue-600 rounded"><span class="px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">視聴済み</span></label>
+                    </div>
+                </div>
+                @else
+                @endauth
+
+                <div class="mb-4">
+                    <label class="block mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">タグで絞り込み（複数選択可）</label>
+                    <div class="flex flex-wrap gap-1.5">
+                    @foreach($tags as $tag)
+                        <label class="tag-btn px-2.5 py-1 text-xs font-medium rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 cursor-pointer has-[:checked]:border-blue-600 has-[:checked]:bg-blue-600 has-[:checked]:text-white">
+                            <input type="checkbox" name="tags[]" value="{{ $tag->id }}" class="hidden">
+                            {{ $tag->name }}
+                        </label>                    
+                    @endforeach
+                    </div>
+                    <div class="flex flex-col gap-1.5 mt-3 text-xs text-gray-500 dark:text-gray-400">
+                    <span>絞り込み方法：</span>
+                    <label class="flex items-center"><input type="radio" value="and" name="tagcond" checked class="w-3.5 h-3.5 mr-1 text-blue-600">選んだタグを全部含む作品</label>
+                    <label class="flex items-center"><input type="radio" value="or" name="tagcond" class="w-3.5 h-3.5 mr-1 text-blue-600">選んだタグのどれかを含む作品</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="block text-center w-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
+                    この条件で絞り込む
+                </button>
+                </div>
+            </form>
         </aside>
 
         <section class="lg:col-span-3">

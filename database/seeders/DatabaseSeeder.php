@@ -21,5 +21,12 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // タグデータ用意
+        $this->call([
+            TagSeeder::class,
+            WorkSeeder::class,
+            ImpressionSeeder::class,
+        ]);
     }
 }

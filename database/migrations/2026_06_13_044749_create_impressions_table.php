@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('work_id')->constrained()->cascadeOnDelete();
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->nullable();
             $table->decimal('rating', 2, 1)->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
