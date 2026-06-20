@@ -28,6 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        /* リダイレクト先を変更 */
         return redirect()->intended(route('works.index', absolute: false));
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Work;
 use Illuminate\Http\Request;
 
 class MypageController extends Controller
@@ -10,5 +11,9 @@ class MypageController extends Controller
         public function show()
     {
         //
+        $user = auth()->user();
+        $total = Work::all()->count();
+        $watched = $user->impressions()->where('status', 4)->count();
+        return view('mypage', compact(['user', 'total', 'watched']));
     }
 }
