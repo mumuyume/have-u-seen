@@ -17,7 +17,7 @@ class Work extends Model
 
     public function images()
     {
-        return $this->hasMany(WorkImage::class);
+        return $this->hasMany(WorkImage::class)->orderBy('sort_order');
     }
 
     public function impressions()

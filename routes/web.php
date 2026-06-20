@@ -6,15 +6,13 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WorkController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 # ログイン不要アドレス
 Route::get('/', [WorkController::class, 'index'])->name('works.index');
 Route::get('/search', [WorkController::class, 'search'])->name('works.search');
 Route::get('/work/{work}', [WorkController::class, 'show'])->name('works.show');
 
+Route::get('/wip', function () { return view('wip'); })->name('wip');
 #ログイン必須アドレス
 Route::middleware('auth')->group(function () {
     Route::get('/work/{work}/impression', [ImpressionController::class, 'edit'])->name('impressions.edit');
@@ -28,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
