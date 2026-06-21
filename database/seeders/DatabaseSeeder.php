@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TagSeeder::class,
             WorkSeeder::class,
+            WorkImageSeeder::class,
             ImpressionSeeder::class,
         ]);
     }

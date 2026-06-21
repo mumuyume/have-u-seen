@@ -14,6 +14,6 @@ class MypageController extends Controller
         $user = auth()->user();
         $total = Work::all()->count();
         $watched = $user->impressions()->where('status', 4)->count();
-        return view('mypage', compact(['user', 'total', 'watched']));
+        return view('mypages.show', compact(['user', 'total', 'watched']));
     }
 }

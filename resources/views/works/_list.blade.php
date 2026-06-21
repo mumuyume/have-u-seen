@@ -1,17 +1,5 @@
 @extends('layouts.app')
 
-@php
-    // 視聴ステータスラベル用
-    $status = [
-        'labels' => [1 => '未視聴', 2 => '気になる', 3 => '視聴中', 4 => '視聴済み'],
-        'classes' => [
-            1 => 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-            2 => 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-            3 => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-            4 => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-        ],
-    ];
-@endphp
 
 @section('content')
 <main class="max-w-6xl mx-auto px-4 py-6">
@@ -38,6 +26,18 @@
             </div>
 
             @auth
+            @php
+                // 視聴ステータスラベル用
+                $status = [
+                    'labels' => [1 => '未視聴', 2 => '気になる', 3 => '視聴中', 4 => '視聴済み'],
+                    'classes' => [
+                        1 => 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+                        2 => 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+                        3 => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
+                        4 => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+                    ],
+                ];
+            @endphp
             <div class="mb-4">
                 <label class="block mb-2 text-xs font-medium text-gray-700 dark:text-gray-300">視聴ステータス</label>
                 <div class="space-y-2">
@@ -67,10 +67,8 @@
                 <label class="flex items-center"><input type="radio" value="or" name="tagcond" class="w-3.5 h-3.5 mr-1 text-blue-600" {{ request('tagcond') === 'or' ? 'checked' : '' }}>選んだタグのどれかを含む作品</label>
                 </div>
             </div>
-
-            <button type="submit" class="block text-center w-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2">
-                この条件で絞り込む
-            </button>
+            <button type="submit" class="block text-center w-full text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg px-4 py-2 mb-2">この条件で絞り込む</button>
+            <a href="{{ route('works.search') }}" class="block text-center w-full text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2">条件をリセット</a>
             </div>
         </form>
     </aside>
@@ -81,7 +79,11 @@
             @foreach($works as $work)
             <a href="{{ route('works.show', $work->id) }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition block">
                 <div class="relative">
-                <div class="h-36 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-400 text-xs">サムネイル画像</div>
+                @if($work->images->first())
+                    <img src="{{ $work->images->first()->image_path }}" class="w-full h-36 object-cover" alt="{{ $work->title }}">
+                @else
+                    <div class="h-36 bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-400 text-xs">サムネイル画像</div>
+                @endif
                 <!-- 視聴ラベル -->
                 @php $impression = $work->impressions->first(); @endphp
                 @if ($impression?->status == 1)

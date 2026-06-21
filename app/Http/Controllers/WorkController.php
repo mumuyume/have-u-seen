@@ -17,7 +17,7 @@ class WorkController extends Controller
         //
         $tags = Tag::all();
         $userId = auth()->id();
-        $works = Work::with(['tags', 'impressions' => function ($query) use ($userId) {
+        $works = Work::with(['tags', 'images', 'impressions' => function ($query) use ($userId) {
             $query->where('user_id', $userId);
         }])->paginate(self::PER_PAGE);
         return view('works.index', compact('tags', 'works'));
@@ -29,7 +29,7 @@ class WorkController extends Controller
         $tags = Tag::all();
         $userId = auth()->id();
 
-        $query = Work::with(['tags', 'impressions' => function ($q) use ($userId) {
+        $query = Work::with(['tags', 'images', 'impressions' => function ($q) use ($userId) {
             $q->where('user_id', $userId);
         }]);
         
@@ -57,9 +57,20 @@ class WorkController extends Controller
 
         // ステータス絞り込み（ログイン時のみ）
         if ($userId && $request->filled('status')) {
-            $query->whereHas('impressions', function ($q) use ($userId, $request) {
-                $q->where('user_id', $userId)
-                ->whereIn('status', $request->status);
+            $status = $request->status;
+            $includeUnwatched = in_array('1', $status);
+
+            $query->where(function ($q) use ($userId, $status, $includeUnwatched) {
+                $q->whereHas('impressions', function ($q2) use ($userId, $status) {
+                    $q2->where('user_id', $userId)
+                    ->whereIn('status', $status);
+                });
+
+                if ($includeUnwatched) {
+                    $q->orWhereDoesntHave('impressions', function ($q2) use ($userId) {
+                        $q2->where('user_id', $userId);
+                    });
+                }
             });
         }
 
@@ -70,7 +81,7 @@ class WorkController extends Controller
         public function show(Work $work)
     {
         //
-        $work->load(['tags', 'impressions' => function ($query) {
+        $work->load(['tags', 'images', 'impressions' => function ($query) {
             $query->where('user_id', auth()->id());
         }]);
 

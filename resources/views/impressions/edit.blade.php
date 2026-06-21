@@ -5,11 +5,15 @@
 
 @section('content')
     <main class="max-w-2xl mx-auto px-4 py-6">
-        <a href="{{ session()->previousUrl() }}" class="text-sm text-blue-600 hover:underline dark:text-blue-400">← 戻る</a>
+        <a href="{{ route('works.show', $work->id) }}" class="text-sm text-blue-600 hover:underline dark:text-blue-400">← 戻る</a>
 
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mt-3 p-6">
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-12 h-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center text-gray-400 text-[10px] shrink-0">画像</div>
+                @if($work->images->first())
+                    <img src="{{ $work->images->first()->image_path }}" class="w-12 h-16 object-cover rounded shrink-0" alt="{{ $work->title }}">
+                @else
+                    <div class="w-12 h-16 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center text-gray-400 text-[10px] shrink-0">画像</div>
+                @endif
                 <div>
                     <p class="text-xs text-gray-400 dark:text-gray-500">対象作品</p>
                     <h1 class="text-lg font-bold text-gray-900 dark:text-white">{{ $work->title }} の感想</h1>

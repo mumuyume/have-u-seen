@@ -11,7 +11,7 @@ class ImpressionController extends Controller
     // 感想編集
         public function edit(Work $work)
     {
-        $work->load(['impressions' => function ($query) {
+        $work->load(['images', 'impressions' => function ($query) {
             $query->where('user_id', auth()->id());
         }]);
 
