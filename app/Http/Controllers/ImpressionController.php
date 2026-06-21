@@ -22,20 +22,27 @@ class ImpressionController extends Controller
     // 感想更新処理
         public function update(Request $request, Work $work)
     {
+        $validated = $request->validate([
+            'status'  => 'required|integer|in:1,2,3,4',
+            'rating'  => 'nullable|numeric|min:0|max:5',
+            'comment' => 'nullable|string|max:1000',
+        ]);
+
         $impression = Impression::firstOrNew([
             'user_id' => auth()->id(),
             'work_id' => $work->id,
         ]);
         // 視聴ステータス
-        $impression->status = $request->status;
+        $impression->status = $validated['status'];
         // 評価
-        if($request->filled('rating')){
-            $impression->rating = $request->rating;
+        if(array_key_exists('rating', $validated) && $validated['rating'] !== null){
+            $impression->rating = $validated['rating'];
         }
         // コメント
-        if($request->filled('comment')){
-            $impression->comment = $request->comment;
+        if(array_key_exists('comment', $validated) && $validated['comment'] !== null){
+            $impression->comment = $validated['comment'];
         }
+
         $impression->save();
 
         if($request->filled('rating')){
@@ -49,7 +56,10 @@ class ImpressionController extends Controller
         $impression = Impression::where('user_id', auth()->id())
             ->where('work_id', $work->id)
             ->first();
-        $impression->delete();
+        // $impressionがnullの場合のエラー回避
+        if($impression){
+            $impression->delete();
+        }
         return redirect()->route('works.show', $work->id);
     }
 }

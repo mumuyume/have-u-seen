@@ -5,7 +5,7 @@
 
 @section('content')
     <main class="max-w-2xl mx-auto px-4 py-6">
-        <a href="{{ route('works.show', $work->id) }}" class="text-sm text-blue-600 hover:underline dark:text-blue-400">← 戻る</a>
+        <a href="{{ route('works.show', $work->id) }}" onclick="if(history.length > 1){history.back(); return false;}" class="text-sm text-blue-600 hover:underline dark:text-blue-400">← 戻る</a>
 
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm mt-3 p-6">
             <div class="flex items-center gap-3 mb-5">

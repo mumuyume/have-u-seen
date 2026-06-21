@@ -8,17 +8,21 @@
     <h1 class="text-xl font-bold text-gray-900 dark:text-white">マイページ</h1>
 
     <!-- 統計 -->
-    <div class="grid grid-cols-3 gap-4">
-      <a href="{{ route('works.index') }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
-        <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ $total }}</p>
-        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">登録作品数</p>
-      </a>
-      <a href="{{ route('works.index') }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <a href="{{ route('works.search', ['status' => [4]]) }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
         <p class="text-2xl font-bold text-green-600 dark:text-green-400">{{ $watched }}</p>
         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">視聴済み</p>
       </a>
-      <a href="{{ route('works.index') }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
-        <p class="text-2xl font-bold text-gray-400 dark:text-gray-500">{{ ($total-$watched) }}</p>
+      <a href="{{ route('works.search', ['status' => [3]]) }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
+        <p class="text-2xl font-bold text-yellow-500 dark:text-yellow-400">{{ $watching }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">視聴中</p>
+      </a>
+      <a href="{{ route('works.search', ['status' => [2]]) }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
+        <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ $interested }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">気になる</p>
+      </a>
+      <a href="{{ route('works.search', ['status' => [1]]) }}" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm p-4 text-center hover:shadow-md transition">
+        <p class="text-2xl font-bold text-gray-400 dark:text-gray-500">{{ $unwatched }}</p>
         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">未視聴</p>
       </a>
     </div>

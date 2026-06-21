@@ -10,10 +10,22 @@ class MypageController extends Controller
     // マイページ
         public function show()
     {
-        //
         $user = auth()->user();
-        $total = Work::all()->count();
-        $watched = $user->impressions()->where('status', 4)->count();
-        return view('mypages.show', compact(['user', 'total', 'watched']));
+
+        $counts = $user->impressions()
+            ->selectRaw('status, count(*) as count')
+            ->groupBy('status')
+            ->pluck('count', 'status');
+
+        $watched    = $counts->get(4, 0); // 視聴済み
+        $watching   = $counts->get(3, 0); // 視聴中
+        $interested = $counts->get(2, 0); // 気になる
+        $recordedUnwatched = $counts->get(1, 0); // status=1で明示登録された未視聴
+
+        $totalWorks = Work::count();
+        $recordedWorks = $user->impressions()->count();
+        $unwatched = $totalWorks - $recordedWorks + $recordedUnwatched;
+
+        return view('mypages.show', compact('user', 'watched', 'watching', 'interested', 'unwatched'));
     }
 }
