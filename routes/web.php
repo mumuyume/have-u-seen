@@ -18,14 +18,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/work/{work}/impression', [ImpressionController::class, 'edit'])->name('impressions.edit');
     Route::put('/work/{work}/impression', [ImpressionController::class, 'update'])->name('impressions.update');
     Route::delete('/work/{work}/impression', [ImpressionController::class, 'destroy'])->name('impressions.destroy');
-
     Route::get('/mypage', [MypageController::class, 'show'])->name('mypage');
-});
-
-
-
-
-Route::middleware('auth')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

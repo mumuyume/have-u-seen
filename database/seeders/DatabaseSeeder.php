@@ -22,6 +22,21 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
+        User::factory()->create([
+            'name' => 'デモユーザー',
+            'email' => 'demo@example.com',
+        ]);
+
+        User::factory()->create([
+            'name' => 'アニメ好き太郎',
+            'email' => 'taro@example.com',
+        ]);
+
+        User::factory()->create([
+            'name' => '映画レビュアー花子',
+            'email' => 'hanako@example.com',
+        ]);
+
         // タグデータ用意
         $this->call([
             TagSeeder::class,
